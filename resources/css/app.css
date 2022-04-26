@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    input[type="range"]::-moz-range-thumb {
+        background: #6658dd;
+        @apply border-0 h-4 w-4 rounded-full;
+    }
+    input[type="range"]::-moz-range-track {
+        background: #dee2e6;
+        @apply border-0 h-2 rounded-full;
+    }
+    input[type="range"]::-moz-range-thumb:active {
+        background: #dee2e6;
+    }
+    input:checked + #switch-input {
+        @apply border-[#6658DD] bg-[#6658DD] after:translate-x-full after:bg-white;
+    }
+}
