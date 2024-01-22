@@ -1,0 +1,16 @@
+name: "glance"
+description: "GitHub action for Web screenshot 📸✨"
+author: "natainditama"
+
+branding:
+  icon: 'monitor'
+  color: 'blue'
+
+inputs:
+  url:
+    required: true
+    description: "The website URL you want to screenshot. e.x.: https://www.google.com/"
+
+runs:
+  using: 'node16'
+  main: "dist/index.js"
