@@ -26,3 +26,13 @@ jobs:
 
       - name: Run playwright
         run: node index.js
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: Nata Inditama
+          author_email: natainditama.dev@gmail.com
+          message: "docs: update README.md"
+          add: "."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
