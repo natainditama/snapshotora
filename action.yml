@@ -3,7 +3,7 @@ description: "GitHub action for Web screenshot 📸✨"
 author: "natainditama"
 
 branding:
-  icon: 'monitor'
+  icon: 'camera'
   color: 'blue'
 
 inputs:
