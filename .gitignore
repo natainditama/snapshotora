@@ -1,7 +1,0 @@
-**/.DS_Store
-node_modules
-vendor
-.env
-.env.backup
-npm-debug.log
-yarn-error.log
