@@ -2,13 +2,12 @@ const { chromium } = require("playwright");
 const core = require("@actions/core");
 
 const filename = "screenshot.png";
-const workspace = process.env.GITHUB_WORKSPACE;
-const path = workspace ? `${workspace}/` : `./`;
+const path = process.env.GITHUB_WORKSPACE || `./`;
 const filePath = `${path}/${filename}`;
 
 (async () => {
   try {
-    const url = core.getInput("url", { required: true });
+    const url = core.getInput("url") || "https://github.com/natainditama/glance";
 
     const browser = await chromium.launch();
     const page = await browser.newPage();
