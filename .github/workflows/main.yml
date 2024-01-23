@@ -21,15 +21,16 @@ jobs:
       - name: Install playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run playwright
-        run: node dist/index.js
+      - name: Generate screenshot
+        id: "screenshot"
+        uses: natainditama/screen-snap@main
+        with:
+          url: "https://natainditama.pages.dev/"
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          author_name: Nata Inditama
-          author_email: natainditama.dev@gmail.com
-          message: "docs: Auto updating screenshot.png"
-          add: "."
+          message: "docs: Update ${{ steps.screenshot.outputs.filename }}"
+          add: "${{ steps.screenshot.outputs.filename }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

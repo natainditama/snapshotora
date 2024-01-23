@@ -1,13 +1,14 @@
 const { chromium } = require("playwright");
 const core = require("@actions/core");
 
-const filename = "screenshot.png";
+const type = "png";
+const filename = "screenshot";
 const path = process.env.GITHUB_WORKSPACE || `./`;
-const filePath = `${path}/${filename}`;
+const filePath = `${path}/${filename}.${type}`;
 
 (async () => {
   try {
-    const url = core.getInput("url") || "https://github.com/natainditama/glance";
+    const url = core.getInput("url") || "https://github.com";
 
     const browser = await chromium.launch();
     const page = await browser.newPage();
@@ -15,6 +16,7 @@ const filePath = `${path}/${filename}`;
     await page.screenshot({ path: filePath });
 
     await browser.close();
+    core.setOutput("filename", `${filename}.${type}`);
   } catch (error) {
     console.log(error);
     core.setFailed(error.message);

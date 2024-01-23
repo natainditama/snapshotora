@@ -3,14 +3,39 @@ description: "GitHub action for Web screenshot 📸✨"
 author: "natainditama"
 
 branding:
-  icon: 'camera'
-  color: 'blue'
+  icon: "camera"
+  color: "gray-dark"
 
 inputs:
   url:
     required: true
-    description: "The website URL you want to screenshot. e.x.: https://www.google.com/"
+    default: ""
+    description: "Website URL to capture screenshot"
+  filename:
+    required: false
+    default: "screenshot.png"
+    description: "Output filename for the screenshot"
+  type:
+    required: false
+    default: "png"
+    description: "File format (e.g., png, jpeg)"
+  delay:
+    required: false
+    default: "0"
+    description: "Delay after capturing (ms)"
+  fullPage:
+    required: false
+    default: "false"
+    description: "Capture entire page (true/false)"
+  width:
+    required: false
+    default: "1280"
+    description: "Browser window width in pixels"
+
+outputs:
+  filename:
+    description: "Output filename for the screenshot"
 
 runs:
-  using: 'node16'
+  using: "node16"
   main: "dist/index.js"
