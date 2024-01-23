@@ -31,6 +31,6 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           message: "docs: Update ${{ steps.screenshot.outputs.filename }}"
-          add: "${{ steps.screenshot.outputs.filename }}"
+          add: "."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
