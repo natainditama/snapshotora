@@ -1,8 +1,8 @@
 {
-  "name": "glance",
+  "name": "screen-snap",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "node index.js",
     "build": "ncc build index.js -o dist -m"
@@ -12,6 +12,8 @@
     "playwright": "^1.41.1"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.38.1"
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4"
   }
 }
