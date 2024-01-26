@@ -25,7 +25,9 @@ jobs:
         id: "screenshot"
         uses: natainditama/screen-snap@main
         with:
-          url: "https://github.com/${{ github.repository }}"
+          # url: "https://github.com/${{ github.repository }}"
+          url: "https://aadc-bambu.pages.dev"
+          filename: "screnshots/screnshot.png"
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
