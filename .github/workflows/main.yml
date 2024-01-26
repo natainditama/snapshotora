@@ -25,12 +25,12 @@ jobs:
         id: "screenshot"
         uses: natainditama/screen-snap@main
         with:
-          url: "https://natainditama.pages.dev/"
+          url: "https://github.com/${{ github.repository }}"
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: "docs: Update ${{ steps.screenshot.outputs.filename }}"
+          message: "docs: update ${{ steps.screenshot.outputs.filename }}"
           add: "."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
