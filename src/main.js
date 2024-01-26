@@ -8,7 +8,7 @@ const DEFAULT_FILENAME = "screenshot.jpg";
 async function run() {
   try {
     let delay = core.getInput("delay") || "0";
-    const url = core.getInput("url", {}) || "ada";
+    const url = core.getInput("url", { required: true });
     const fullPage = core.getInput("fullPage") === "true";
     let filename = core.getInput("filename") || DEFAULT_FILENAME;
     let screenshotType = core.getInput("type") || DEFAULT_TYPE;
@@ -36,7 +36,7 @@ async function run() {
     }
 
     core.startGroup("inputs");
-    console.log("inputs: ", {
+    console.log("Inputs: ", {
       url,
       fullPage,
       filename,
@@ -57,7 +57,13 @@ async function run() {
     });
     await browser.close();
 
-    core.setOutput("filename", filePath);
+    let fileExt = filePath.split("/").pop();
+    core.setOutput("filename", fileExt);
+    core.startGroup("Outputs");
+    console.log("Outputs: ", {
+      fileName: fileExt,
+    });
+    core.endGroup();
   } catch (error) {
     core.setFailed(error.message);
   }
