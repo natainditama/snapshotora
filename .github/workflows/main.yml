@@ -25,9 +25,11 @@ jobs:
         uses: natainditama/screen-snap@main
         with:
           url: "https://github.com/${{ github.repository }}"
-          fileName: "screnshot.png"
+          fileName: "examples/screnshot.png"
 
       - name: Commit changes
+        # Only run this step if screenshot path is not empty
+        if: steps.screenshot.outputs.path != ''  
         uses: EndBug/add-and-commit@v9
         with:
           message: "docs: update ${{ steps.screenshot.outputs.path }}"

@@ -75688,14 +75688,14 @@ const { isValidURL, wait } = __nccwpck_require__(1608);
 const { chromium } = __nccwpck_require__(2205);
 
 const DEFAULT_TYPE = "png";
-const DEFAULT_FILENAME = "screenshot.jpg";
+const DEFAULT_FILENAME = "screenshot.png";
 
 async function run() {
   try {
     let delay = core.getInput("delay") || "0";
     const url = core.getInput("url", { required: true });
     const fullPage = core.getInput("fullPage") === "true";
-    let filename = core.getInput("filename") || DEFAULT_FILENAME;
+    let fileName = core.getInput("fileName") || DEFAULT_FILENAME;
     let screenshotType = core.getInput("type") || DEFAULT_TYPE;
 
     if (!isValidURL(url)) {
@@ -75709,9 +75709,9 @@ async function run() {
       delay = 0;
     }
 
-    filename = filename.includes(".")
-      ? filename.slice(0, filename.lastIndexOf("."))
-      : filename;
+    fileName = fileName.includes(".")
+      ? fileName.slice(0, fileName.lastIndexOf("."))
+      : fileName;
 
     const includedTypes = ["png", "jpeg"];
     screenshotType = screenshotType.toLowerCase();
@@ -75720,33 +75720,35 @@ async function run() {
       screenshotType = DEFAULT_TYPE;
     }
 
-    core.startGroup("inputs");
+    core.startGroup("Inputs");
     console.log("Inputs: ", {
       url,
       fullPage,
-      filename,
+      fileName,
       type: screenshotType,
     });
     core.endGroup();
 
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({
+      args: ["--no-sandbox", "--start-fullscreen"],
+    });
     const page = await browser.newPage();
     await page.goto(url);
     await wait(delay);
 
     const path = process.env.GITHUB_WORKSPACE || ".";
-    const filePath = `${path}/${filename}.${screenshotType}`;
+    const filePath = `${path}/${fileName}.${screenshotType}`;
     await page.screenshot({
       path: filePath,
       fullPage,
     });
     await browser.close();
 
-    let fileExt = filePath.split("/").pop();
-    core.setOutput("filename", fileExt);
+    const fileExt = filePath.replace(`${path}/`, "");
+    core.setOutput("path", fileExt);
     core.startGroup("Outputs");
     console.log("Outputs: ", {
-      fileName: fileExt,
+      path: fileExt,
     });
     core.endGroup();
   } catch (error) {
