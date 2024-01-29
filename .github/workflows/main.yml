@@ -1,12 +1,11 @@
-name: Playwright Screenshot
+name: GitHub Actions Test
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, master]
 
 jobs:
-  screenshot:
+  test-action:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +15,7 @@ jobs:
       - name: Setup node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install playwright browsers
         run: npx playwright install --with-deps
@@ -25,14 +24,13 @@ jobs:
         id: "screenshot"
         uses: natainditama/screen-snap@main
         with:
-          # url: "https://github.com/${{ github.repository }}"
-          url: "https://aadc-bambu.pages.dev"
-          filename: "screnshots/screnshot.png"
+          url: "https://github.com/${{ github.repository }}"
+          fileName: "screnshot.png"
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: "docs: update ${{ steps.screenshot.outputs.filename }}"
+          message: "docs: update ${{ steps.screenshot.outputs.path }}"
           add: "."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

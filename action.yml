@@ -11,7 +11,7 @@ inputs:
     required: true
     default: ""
     description: "Website URL to capture screenshot"
-  filename:
+  fileName:
     required: false
     default: "screenshot.png"
     description: "Output filename for the screenshot"
@@ -29,9 +29,9 @@ inputs:
     description: "Capture entire page (true/false)"
 
 outputs:
-  filename:
-    description: "Output filename for the screenshot"
+  path:
+    description: "Output path for the screenshot"
 
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/index.js"
