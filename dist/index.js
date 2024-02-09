@@ -75684,7 +75684,7 @@ exports["default"] = _default;
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
-const { isValidURL, wait } = __nccwpck_require__(1608);
+const { isValidURL, wait, getExecutablePath } = __nccwpck_require__(1608);
 const { chromium } = __nccwpck_require__(2205);
 
 const DEFAULT_TYPE = "png";
@@ -75731,6 +75731,7 @@ async function run() {
 
     const browser = await chromium.launch({
       args: ["--no-sandbox", "--start-fullscreen"],
+      executablePath: getExecutablePath(),
     });
     const page = await browser.newPage();
     await page.goto(url);
@@ -75781,7 +75782,19 @@ function isValidURL(url) {
   );
 }
 
+
+function getExecutablePath(){
+  const executables = {
+    Linux: '/usr/bin/google-chrome',
+    Windows: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    macOS: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  };
+  
+  return executables[process.env.RUNNER_OS];
+}
+
 module.exports = {
+  getExecutablePath,
   isValidURL,
   wait,
 };

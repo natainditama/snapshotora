@@ -22,7 +22,7 @@ inputs:
   delay:
     required: false
     default: "0"
-    description: "Delay after capturing (ms)"
+    description: "Delay before capturing (ms)"
   fullPage:
     required: false
     default: "false"

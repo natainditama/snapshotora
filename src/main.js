@@ -1,5 +1,5 @@
 const core = require("@actions/core");
-const { isValidURL, wait } = require("./utils.js");
+const { isValidURL, wait, getExecutablePath } = require("./utils.js");
 const { chromium } = require("playwright");
 
 const DEFAULT_TYPE = "png";
@@ -46,6 +46,7 @@ async function run() {
 
     const browser = await chromium.launch({
       args: ["--no-sandbox", "--start-fullscreen"],
+      executablePath: getExecutablePath(),
     });
     const page = await browser.newPage();
     await page.goto(url);
