@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install playwright browsers
-        run: npx playwright install --with-deps
+      # - name: Install playwright browsers
+      #   run: npx playwright install --with-deps
 
       - name: Generate screenshot
         id: "screenshot"
