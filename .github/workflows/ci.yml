@@ -1,0 +1,45 @@
+name: GitHub Actions Test
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Generate screenshot
+        id: "screenshot"
+        uses: natainditama/snapshotora@main
+        with:
+          url: "https://github.com/${{ github.repository }}"
+          fileName: "examples/screnshot.png"
+
+      - name: Commit changes
+        # Only run this step if screenshot path is not empty
+        if: steps.screenshot.outputs.path != ''
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "docs: update ${{ steps.screenshot.outputs.path }}"
+          add: "."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
