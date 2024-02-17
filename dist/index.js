@@ -53031,6 +53031,7 @@ function defaultCallback(err) {
 /***/ 1713:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
+const fs = __nccwpck_require__(7147);
 const path = __nccwpck_require__(1017);
 const core = __nccwpck_require__(2186);
 const captureWebsite = __nccwpck_require__(1377);
@@ -53052,6 +53053,7 @@ async function run() {
       },
     };
 
+    if (fs.existsSync(dest)) fs.unlinkSync(dest);
     await captureWebsite.file("http://github.com/", dest, options);
     core.setOutput("path", dest);
   } catch (error) {

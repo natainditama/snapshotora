@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 const core = require("@actions/core");
 const captureWebsite = require("capture-website");
@@ -19,6 +20,7 @@ async function run() {
       },
     };
 
+    if (fs.existsSync(dest)) fs.unlinkSync(dest);
     await captureWebsite.file("http://github.com/", dest, options);
     core.setOutput("path", dest);
   } catch (error) {
