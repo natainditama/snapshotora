@@ -33,6 +33,7 @@ jobs:
         with:
           url: "https://github.com/${{ github.repository }}"
           fileName: "examples/screnshot.png"
+          branch: dev
 
       - name: Commit changes
         # Only run this step if screenshot path is not empty
