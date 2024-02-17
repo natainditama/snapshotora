@@ -53046,6 +53046,7 @@ async function run() {
 
     const executablePath = await getExecutablePath();
     const options = {
+      overwrite: true,
       launchOptions: {
         executablePath,
       },
