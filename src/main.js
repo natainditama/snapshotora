@@ -1,25 +1,72 @@
 const path = require("path");
 const core = require("@actions/core");
-const captureWebsite = require("capture-website");
-const { getExecutablePath } = require("./utils.js");
+const { isValidURL, wait } = require("./utils.js");
+const { chromium } = require("playwright-chromium");
 
 const DEFAULT_TYPE = "png";
 const DEFAULT_FILENAME = "screenshot.png";
 
 async function run() {
   try {
-    const destPath = process.env.GITHUB_WORKSPACE || "./";
-    const dest = path.join(destPath, DEFAULT_FILENAME);
+    let delay = core.getInput("delay") || "0";
+    const url = core.getInput("url", { required: true });
+    const fullPage = core.getInput("fullPage") === "true";
+    let fileName = core.getInput("fileName") || DEFAULT_FILENAME;
+    let screenshotType = core.getInput("type") || DEFAULT_TYPE;
 
-    const executablePath = await getExecutablePath();
-    const options = {
-      launchOptions: {
-        executablePath,
-      },
-    };
+    if (!isValidURL(url)) {
+      core.error("url must be a valid URL");
+      return;
+    }
 
-    await captureWebsite.file("http://github.com/", dest, options);
-    core.setOutput("path", dest);
+    delay = parseInt(delay);
+    if (Number.isNaN(delay)) {
+      core.debug("delay must be a number");
+      delay = 0;
+    }
+
+    fileName = fileName.includes(".")
+      ? fileName.slice(0, fileName.lastIndexOf("."))
+      : fileName;
+
+    const includedTypes = ["png", "jpeg"];
+    screenshotType = screenshotType.toLowerCase();
+    if (!includedTypes.includes(screenshotType)) {
+      core.debug(`type must be one of [${includedTypes.join(", ")}]`);
+      screenshotType = DEFAULT_TYPE;
+    }
+
+    core.startGroup("Inputs");
+    console.log({
+      url,
+      fullPage,
+      fileName,
+      type: screenshotType,
+    });
+    core.endGroup();
+
+    const browser = await chromium.launch({
+      args: ["--no-sandbox", "--start-fullscreen"],
+    });
+    const page = await browser.newPage();
+    await page.goto(url);
+    await wait(delay);
+
+    const path = process.env.GITHUB_WORKSPACE || ".";
+    const filePath = `${path}/${fileName}.${screenshotType}`;
+    await page.screenshot({
+      path: filePath,
+      fullPage,
+    });
+    await browser.close();
+
+    const fileExt = filePath.replace(`${path}/`, "");
+    core.setOutput("path", fileExt);
+    core.startGroup("Outputs");
+    console.log("Outputs: ", {
+      path: fileExt,
+    });
+    core.endGroup();
   } catch (error) {
     core.setFailed(error.message);
   }
