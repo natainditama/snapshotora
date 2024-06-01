@@ -2,6 +2,7 @@ const path = require("path");
 const core = require("@actions/core");
 const { isValidURL, wait } = require("./utils.js");
 const { chromium } = require("playwright");
+const puppeteer = require("puppeteer");
 
 const DEFAULT_TYPE = "png";
 const DEFAULT_FILENAME = "screenshot.png";
@@ -45,9 +46,14 @@ async function run() {
     });
     core.endGroup();
 
-    const browser = await chromium.launch({
-      args: ["--no-sandbox", "--start-fullscreen"],
-    });
+    const launchOptions = process.env.GITHUB_SHA
+      ? {
+          executablePath: "google-chrome-stable",
+          args: ["--no-sandbox", "--start-fullscreen"],
+        }
+      : {};
+    const browser = await puppeteer.launch(launchOptions);
+
     const page = await browser.newPage();
     await page.goto(url);
     await wait(delay);
