@@ -1,7 +1,7 @@
 const path = require("path");
 const core = require("@actions/core");
 const { isValidURL, wait } = require("./utils.js");
-const { chromium } = require("playwright-chromium");
+const { chromium } = require("playwright");
 
 const DEFAULT_TYPE = "png";
 const DEFAULT_FILENAME = "screenshot.png";
