@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@vercel/ncc": "^0.38.1",
-    "dotenv": "^16.4.4",
+    "dotenv": "^17.0.0",
     "eslint": "^8.56.0",
     "prettier": "^3.2.4"
   }
